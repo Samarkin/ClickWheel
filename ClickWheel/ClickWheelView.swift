@@ -4,7 +4,10 @@ private let inWheelRadius: CGFloat = 0.25
 private let outWheelRadius: CGFloat = 0.5
 private let clickThreshold: CGFloat = 0.1
 
+@IBDesignable
 class ClickWheelView: UIView {
+    @IBInspectable var wheelColor: UIColor = .black
+    @IBInspectable var textColor: UIColor?
     override func draw(_ rect: CGRect) {
         let t = min(rect.height, rect.width)
         let outrect = CGRect(x: 0, y: 0, width: t, height: t)
@@ -12,16 +15,15 @@ class ClickWheelView: UIView {
         let outpath = UIBezierPath(ovalIn: outrect)
         let inpath = UIBezierPath(ovalIn: inrect)
         
-        UIColor.black.setFill()
+        wheelColor.setFill()
         outpath.fill()
-        UIColor.white.setFill()
+        (backgroundColor ?? .white).setFill()
         inpath.fill()
 
         let s = NSString.init(string: "\(value)%")
-        UIColor.black.setFill()
         let attr: [NSAttributedStringKey : Any] = [
             .font : UIFont(name: "Helvetica", size: 20)!,
-            .foregroundColor : UIColor.black
+            .foregroundColor : textColor ?? wheelColor
         ]
         let textSize = s.size(withAttributes: attr)
         let textH = textSize.height
